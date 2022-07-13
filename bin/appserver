@@ -1,0 +1,5 @@
+#! /bin/sh
+
+. venv/bin/activate
+cd app/dv
+exec gunicorn --name "dv-members" --workers 1 --bind "unix:../../run/http" "dv.wsgi:application"

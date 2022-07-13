@@ -1,0 +1,43 @@
+server {
+	listen [::]:80;
+
+	server_name members.moreaux.nl;
+	access_log /var/log/nginx/members.moreaux.nl.access.log extended;
+
+	location /.well-known/acme-challenge {
+		alias /var/lib/acme/challenges;
+	}
+
+	location / {
+		return 301 https://$host$request_uri;
+	}
+}
+
+
+
+server {
+	listen [::]:443;
+
+	server_name members.moreaux.nl;
+	access_log /var/log/nginx/members.moreaux.nl.access.log extended;
+
+	ssl_certificate /var/lib/acme/live/members.moreaux.nl/fullchain;
+	ssl_certificate_key /var/lib/acme/live/members.moreaux.nl/privkey;
+
+	location / {
+		include /etc/nginx/proxy_params;
+		proxy_pass http://unix:/srv/www/members/run/http;
+
+		include /etc/nginx/https_headers;
+		add_header Cache-Control "no-store";
+	}
+
+	location /static/ {
+		alias /srv/www/members/app/static/;
+		gzip_static on;
+
+		include /etc/nginx/https_headers;
+		add_header Cache-Control "public";
+		expires 60m;
+	}
+}

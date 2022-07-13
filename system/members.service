@@ -1,0 +1,13 @@
+[Unit]
+Description=DV members
+#Requires=postgresql.service
+#After=postgresql.service
+
+[Service]
+ExecStart=/srv/www/members/app/bin/appserver
+WorkingDirectory=/srv/www/members
+User=members
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
