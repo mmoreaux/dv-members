@@ -9,3 +9,7 @@ class MemberAdmin(admin.ModelAdmin):
 		'paid_contribution',
 	]
 admin.site.register(models.Member, MemberAdmin)
+
+class CommitteeAdmin(admin.ModelAdmin):
+	list_display = ['name', 'chairman']
+admin.site.register(models.Committee, CommitteeAdmin)
