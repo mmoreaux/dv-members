@@ -1,0 +1,19 @@
+#! /bin/sh
+
+set -e
+
+cd "$HOME/logs"
+
+# Don't rotate empty file
+[ -s backend.log ] || exit
+
+DEST=$(date -d '12 hours ago' '+%Y/%m/%d.log')
+mkdir -p "$DEST"
+rmdir "$DEST"
+mv backend.log "$DEST"
+
+sleep 300
+nice nice gzip "$DEST"
+
+find -type f -mtime +35 -delete
+find -type d -empty -delete
