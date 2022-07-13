@@ -1,0 +1,4 @@
+dv/.env
+dv/backend.log
+dv/db.sqlite3
+**/__pycache__/
