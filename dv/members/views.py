@@ -3,4 +3,5 @@ from django.http import HttpResponse
 import json
 
 def mems(request):
-	return HttpResponse(json.dumps(list(Member.objects.values('id', 'first_name', 'last_name'))))
+	data = list(Member.objects.values('id', 'first_name', 'last_name'))
+	return HttpResponse(json.dumps(data), content_type="application/json")
