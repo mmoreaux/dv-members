@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from members.models import Member
 from django.http import HttpResponse
+import json
 
-def index(request):
-    return HttpResponse("Hello, world. You're at the members index.")
+def mems(request):
+	return HttpResponse(json.dumps(list(Member.objects.values('id', 'first_name', 'last_name'))))
